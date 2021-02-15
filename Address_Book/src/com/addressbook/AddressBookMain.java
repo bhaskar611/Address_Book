@@ -19,7 +19,8 @@ class AddressBookMain {
 
 			System.out.println("1.Add Contact");
 			System.out.println("2.Edit Contact");
-			System.out.println("3.Exit");
+			System.out.println("3.Delete Contact");
+			System.out.println("4.Exit");
 			System.out.println("Enter Choice: ");
 
 			int option = sc.nextInt();
@@ -41,8 +42,17 @@ class AddressBookMain {
 					System.out.println("Contact Not Found");
 				}
 				break;
-
-			case 3: 
+			case 3:
+				System.out.println("Enter the Contact to be deleted:");
+				String firstName = sc.next();
+				boolean listDeleted = addressBook.deleteContact(firstName);
+				if (listDeleted) {
+					System.out.println("Deleted Contact from the List");
+				} else {
+					System.out.println("List Cannot be Deleted");
+				}
+				break;
+			case 4: 
 				flag =false;
 				break;
 
