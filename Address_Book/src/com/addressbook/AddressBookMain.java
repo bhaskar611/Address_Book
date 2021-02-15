@@ -29,17 +29,22 @@ class AddressBookMain {
 			{
 			case 1: 
 				addressBook.addContactDetails();
+				int noOfContacts = sc.nextInt();
+				for(int i = 0; i < noOfContacts; i++) {
+					addressBook.addContactDetails();
+				}
 				break;
+				
 
 			case 2: 
 				System.out.println("Enter the Person First name to edit details: ");
-				String person_name = sc.next();
+				String personName = sc.next();
 
-				boolean b = addressBook.editContactDetails(person_name);
-				if (b == true) {
-					System.out.println("Details Updated");
+				boolean listEdited = addressBook.editContactDetails(personName);
+				if (listEdited) {
+					System.out.println("List Edited Successfully");
 				} else {
-					System.out.println("Contact Not Found");
+					System.out.println("List Cannot be Edited");
 				}
 				break;
 			case 3:
