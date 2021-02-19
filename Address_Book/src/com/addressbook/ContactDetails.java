@@ -83,5 +83,9 @@ public class ContactDetails {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+	public String toString() {
+		return "ContactPerson [firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phoneNumber + ", city=" + city
+				+ ", state=" + state + ", zip=" + zip + ", email=" + email + "]";
+	}
 
 }
