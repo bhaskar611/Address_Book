@@ -7,15 +7,18 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
 public class AddressBook {
+	
 	public static Scanner sc = new Scanner(System.in);
 	
-	  public ArrayList<ContactDetails> contactList ;
+	    public ArrayList<ContactDetails> contactList ;
 	    public HashMap<String, ArrayList<ContactDetails>> personByState;
 	    public HashMap<String, ArrayList<ContactDetails>> personByCity;
 	    public AddressBook() {
-	        personByCity = new HashMap<String, ArrayList<ContactDetails>>();
+	    	
+	        personByCity  = new HashMap<String, ArrayList<ContactDetails>>();
 	        personByState = new HashMap<String, ArrayList<ContactDetails>>();
-	        contactList = new ArrayList<>();
+	        contactList   = new ArrayList<>();
+	        
 	    }
 // Add Contact Details
 	public ArrayList<ContactDetails> addContactDetails(){
@@ -203,7 +206,7 @@ public class AddressBook {
 
 
 	}
-	// Get Person Name by State 
+// Get Person Name by State 
 	 public void getPersonNameByState(String State) {
 	        List<ContactDetails> list  = contactList.stream().filter(p ->p.getState().equals(State)).collect(Collectors.toList());
 	        for(ContactDetails contact: list){
@@ -212,7 +215,7 @@ public class AddressBook {
 	        }
 
 	    }
-	// Get Person Name by city 
+// Get Person Name by city 
 	    public void getPersonNameByCity(String cityName) {
 	        List<ContactDetails> list  = contactList.stream().filter(p ->p.getCity().equals(cityName)).collect(Collectors.toList());
 	        for(ContactDetails contact: list){
