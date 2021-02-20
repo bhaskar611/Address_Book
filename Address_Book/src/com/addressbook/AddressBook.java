@@ -1,5 +1,6 @@
 package com.addressbook;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
@@ -7,9 +8,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 public class AddressBook {
 	public static Scanner sc = new Scanner(System.in);
-	public ArrayList<ContactDetails> contactList = new ArrayList<>();
+	
+	  public ArrayList<ContactDetails> contactList ;
+	    public HashMap<String, ArrayList<ContactDetails>> personByState;
+	    public HashMap<String, ArrayList<ContactDetails>> personByCity;
+	    public AddressBook() {
+	        personByCity = new HashMap<String, ArrayList<ContactDetails>>();
+	        personByState = new HashMap<String, ArrayList<ContactDetails>>();
+	        contactList = new ArrayList<>();
+	    }
 // Add Contact Details
-	public void addContactDetails(){
+	public ArrayList<ContactDetails> addContactDetails(){
 		System.out.println("Enter the contact details:");
 		System.out.println("Enter First Name");
 		String firstName = sc.next();
@@ -31,6 +40,17 @@ public class AddressBook {
 		ContactDetails contactDetails = new ContactDetails(firstName, lastName, address, city, state, email, phoneNumber, zip);
 		contactList.add(contactDetails);
 		System.out.println(contactDetails);
+		 if(!personByState.containsKey(state)){
+	            personByState.put(state,new ArrayList<ContactDetails>());
+	        }
+	        personByState.get(state).add(contactDetails);
+
+	        if(!personByCity.containsKey(city)){
+	            personByCity.put(city,new ArrayList<ContactDetails>());
+	        }
+	        personByCity.get(city).add(contactDetails);
+
+	        return contactList;
 
 	}
 // Edit Contact Details
@@ -141,6 +161,19 @@ public class AddressBook {
 		else
 			return false;
 	}
+//	Display Address Book
+	public boolean DisplayAddressBook(String Name)
+	{
+		int flag = 0;
+		for (int i = 0; i < contactList.size(); i++) {
+			System.out.println(contactList);
+			flag = 1;
+		}
+		if(flag==1)
+			return true;
+		else
+			return false;
+	}
 // Delete Contact Details
 	public boolean deleteContact(String name) {
 		int flag = 0;
@@ -186,5 +219,6 @@ public class AddressBook {
 	            System.out.println("Last Name: "+contact.getLastName());
 	        }
 	    }
+		
 }
 
