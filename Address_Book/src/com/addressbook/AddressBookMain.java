@@ -2,11 +2,12 @@ package com.addressbook;
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 // Main Class
 class AddressBookMain {
 	public static Scanner sc = new Scanner(System.in);
 	private static AddressBook addressBook = new AddressBook();
-	public Map<String,AddressBook> addressBookListMap = new HashMap<>();
+	public  Map<String,AddressBook> addressBookListMap = new HashMap<>();
 	private String addressBookName;
 	
 	public static void main(String[] args) {
@@ -25,7 +26,8 @@ class AddressBookMain {
 				     +"7]Display AddressBook\n"
 				     +"8]Count  By State\n" 
 				     +"9]Count  By city\n"
-				     +"10]Exit\n" 
+				     +"10]sort entries in the addressbook\n"
+				     +"11]Exit\n" 
 				     + "Enter your Choice\n");			
 			int option = sc.nextInt();
 			switch (option){
@@ -73,17 +75,15 @@ class AddressBookMain {
                      
 
            case 7:
-        	   System.out.println("Enter the Person First name to Display ");
-				String Name = sc.next();
 
-				boolean list = addressBook.DisplayAddressBook(Name);
+				boolean list = addressBook.DisplayAddressBook();
 				if (list) {
 					System.out.println("Displayed the Address Book");
 				} else {
 					System.out.println(" Cannot be Displayed");
 				}
-				
 				break;
+				
            case 8:
 				System.out.println("Enter  State Name: ");
 				String stateName = sc.next();
@@ -97,8 +97,13 @@ class AddressBookMain {
 				break;
 				
            case 10:
-                     flag = false;
-                     break;
+        	   
+        	   System.out.println("Contacts  Names in Alphabetical Order");
+               addressBookMain.sorting();
+
+           case 11:
+        	   flag = false;
+               break;
 			}
 			}
 		}
@@ -260,6 +265,18 @@ class AddressBookMain {
 			}
 			System.out.println("Total persons from this city "+city+": "+countPersonInCity);
 		}
+// sort Contact by Name		
+		 private void sorting() {
+		        for (Map.Entry<String,AddressBook>entry:addressBookListMap.entrySet()){
+		            AddressBook value = entry.getValue();
+		            List<ContactDetails> sortedList = value.contactList.stream().sorted(Comparator.comparing(ContactDetails::getFirstName)).collect(Collectors.toList());
+
+		            for(ContactDetails contact:sortedList){
+		                System.out.println("First Name: "+contact.getFirstName());
+		                System.out.println("Last Name: "+contact.getLastName());
+		            }
+		        }
+		    }
 
 	}
 
