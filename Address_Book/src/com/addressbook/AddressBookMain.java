@@ -12,8 +12,6 @@ class AddressBookMain {
 	public void addAddressBook(String bookName){
 	
 	
-   
-		
 		boolean flag = true;
 
 		while(flag) {
@@ -85,6 +83,7 @@ class AddressBookMain {
 		}
 
 	}
+	
 	public static void main(String[] args) {
 		System.out.println("Welcome to the Address Book  System ");
 		AddressBookMain addressBookMain = new AddressBookMain();
@@ -96,7 +95,10 @@ class AddressBookMain {
 				     +"2] Find Duplicate Entry in Address Book\n"
 				     +"3]Search Contact from a city\n"
 				     +"4]Search Contact from a State\n"
-				     +"5]Exit\n" 
+				     +"5]View contact By State Using State and Person HashMap\n"
+				     +"6]View Contact by city Using City and Person HashMap\n"
+				     +"7]Display AddressBook\n"
+				     +"8]Exit\n" 
 				     + "Enter your Choice\n");			
 			int option = sc.nextInt();
 			switch (option){
@@ -123,16 +125,41 @@ class AddressBookMain {
                  addressBookMain.searchPersonByCity(CityName);
                  break;
 
-             case 4:{
+             case 4:
                  System.out.println("Enter Name of State: ");
                  String StateName = sc.next();
                  addressBookMain.searchPersonByState(StateName);
                  break;
-             }
+             
 
-             case 5:
-                 flag = false;
-                 break;
+           case 5:
+                     System.out.println("Enter Name of State: ");
+                     String state = sc.next();
+                     addressBookMain.viewPersonByState(state);
+                     break;
+
+           case 6:
+                     System.out.println("Enter Name of City: ");
+                     String city = sc.next();
+                     addressBookMain.viewPersonByCity(city);
+                     break;
+                     
+
+           case 7:
+        	   System.out.println("Enter the Person First name to Display ");
+				String Name = sc.next();
+
+				boolean list = addressBook.DisplayAddressBook(Name);
+				if (list) {
+					System.out.println("Displayed the Address Book");
+				} else {
+					System.out.println(" Cannot be Displayed");
+				}
+				
+				break;
+           case 8:
+                     flag = false;
+                     break;
 			}
 			}
 		}
@@ -155,6 +182,25 @@ class AddressBookMain {
 		
 	}
 
+	 private void viewPersonByState(String stateName) {
+	        for (Map.Entry<String, AddressBook> entry : addressBookListMap.entrySet()) {
+	            AddressBook value = entry.getValue();
+	            ArrayList<ContactDetails> contacts = value.personByState.entrySet().stream().filter(findState -> findState.getKey().equals(stateName)).map(Map.Entry::getValue).findFirst().orElse(null);
+	            for(ContactDetails contact: contacts){
+	                System.out.println("First Name: "+contact.getFirstName()+" Last Name: "+ contact.getLastName());
+	            }
+	        }
+	    }
+
+	    private void viewPersonByCity(String cityName) {
+	        for (Map.Entry<String, AddressBook> entry : addressBookListMap.entrySet()) {
+	            AddressBook value = entry.getValue();
+	            ArrayList<ContactDetails> contacts = value.personByCity.entrySet().stream().filter(findCity -> findCity.getKey().equals(cityName)).map(Map.Entry::getValue).findFirst().orElse(null);
+	            for(ContactDetails contact: contacts){
+	                System.out.println("First Name: "+contact.getFirstName()+" Last Name: "+ contact.getLastName());
+	            }
+	        }
+	    }
 
 	}
 
