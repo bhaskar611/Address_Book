@@ -1,4 +1,8 @@
 package com.addressbook;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,7 +14,7 @@ public class AddressBook {
 	
 	public static Scanner sc = new Scanner(System.in);
 	
-	    public ArrayList<ContactDetails> contactList ;
+	    public static ArrayList<ContactDetails> contactList ;
 	    public HashMap<String, ArrayList<ContactDetails>> personByState;
 	    public HashMap<String, ArrayList<ContactDetails>> personByCity;
 	    public AddressBook() {
@@ -20,14 +24,45 @@ public class AddressBook {
 	        contactList   = new ArrayList<>();
 	        
 	    }
+	    public void writeData(String addressBookName) {
+	        StringBuffer empBuffer = new StringBuffer();
+	        contactList.forEach(employee -> {
+	            String employeeDataString = employee.toString().concat("\n");
+	            empBuffer.append(employeeDataString);
+	        });
+	        try {
+	            Files.write(Paths.get("address.txt"), empBuffer.toString().getBytes());
+
+	        } catch (IOException e) {
+
+	        }
+	    }
+	    
+	    public void readData(String readAddressBookName) {
+	        try {
+	            Files.lines(new File("address.txt").toPath()).map(line -> line.trim()).forEach(line -> System.out.println(line));
+
+	        } catch (IOException e) {
+
+	        }
+	    }
+
 // Add Contact Details
 	public ArrayList<ContactDetails> addContactDetails(){
 		System.out.println("Enter the contact details:");
-		System.out.println("1]Enter First Name");
-		String firstName = sc.next();
-		checkDuplicate();
-		System.out.println("2]Enter last Name");
-		String lastName = sc.next();
+		
+		System.out.println("1]Enter First Name");		
+			 String firstName = sc.next();
+// check duplicate person			 
+			 if(checkPersonExistence(firstName)){ 	
+				 System.out.println("name already exixts");
+		       }
+		     else{
+			 
+			     System.out.println("2]Enter last Name");
+			     String lastName = sc.next();
+
+			  
 		System.out.println("3]Enter Address ");
 		String address = sc.next();
 		System.out.println("4]Enter City ");
@@ -57,6 +92,18 @@ public class AddressBook {
 	        return contactList;
 
 	}
+			return null;
+			 
+	}	
+	public static boolean checkPersonExistence(String name) {
+        int flag = 0;
+        for (ContactDetails person : contactList) {
+            if (person.getFirstName().equals(name)) {
+                flag = 1;
+            }
+        }
+        return flag == 1;
+    }
 // Edit Contact Details
 	public boolean editContactDetails(String Name)
 	{
@@ -198,11 +245,18 @@ public class AddressBook {
 // Check Duplicate Entry
 	public void checkDuplicate() {
 		Set<String> ContactSet = new HashSet<>();
-		Set<ContactDetails> filterSet = contactList.stream().filter(n -> !ContactSet.add(n.getFirstName())).collect(Collectors.toSet());
+		Set<ContactDetails> filterSet1 = contactList.stream().filter(n -> !ContactSet.add(n.getFirstName())).collect(Collectors.toSet());
+		Set<ContactDetails> filterSet2 = contactList.stream().filter(n -> !ContactSet.add(n.getLastName())).collect(Collectors.toSet());
 
-		for (ContactDetails contact : filterSet) {
-			System.out.println("The Duplicate Contact is: " + contact.getFirstName() + " " + contact.getLastName());
+		for (ContactDetails contact1 : filterSet1) {
+			for (ContactDetails contact2 : filterSet2) {
+				System.out.println("The Duplicate Contact is: " + contact1.getFirstName() + " " + contact2.getLastName());
+				
+				
+			}
+			
 		}
+		
 
 
 	}

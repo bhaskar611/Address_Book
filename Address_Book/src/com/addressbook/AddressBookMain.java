@@ -8,12 +8,12 @@ class AddressBookMain {
 	public static Scanner sc = new Scanner(System.in);
 	private static AddressBook addressBook = new AddressBook();
 	public  Map<String,AddressBook> addressBookListMap = new HashMap<>();
-	private String addressBookName;
+	private static String addressBookName;
 	
 	public static void main(String[] args) {
 		System.out.println("***Welcome to the Address Book  System*** ");
 		AddressBookMain addressBookMain = new AddressBookMain();
-		boolean flag =true;
+		boolean flag = true;
 		while(flag)
 		{
 			System.out.println("Select an option\n" 
@@ -30,7 +30,9 @@ class AddressBookMain {
 				     +"11]sort by city\n"
 				     +"12]sort by state\n"
 				     +"13]sort by zip\n"
-				     +"14]Exit\n"
+				     +"14]write data in to file\n"
+				     +"15]Read data from console\n"
+				     +"16]Exit\n"
 				     + "Enter your Choice\n");			
 			int option = sc.nextInt();
 			switch (option){
@@ -114,8 +116,15 @@ class AddressBookMain {
 			case 13:
 				addressBookMain.sortByZipCode();
 				break;
+				
+			case 14:
+				addressBook.writeData(addressBookName);
+				break;
 
-           case 14:
+			case 15:
+				addressBook.readData(addressBookName);
+				break;
+           case 16:
         	   flag = false;
                break;
 			}
@@ -197,6 +206,7 @@ class AddressBookMain {
 		}
 
 	}
+	
 	
 // Search Person by State	
 	private void searchPersonByState(String stateName) {
